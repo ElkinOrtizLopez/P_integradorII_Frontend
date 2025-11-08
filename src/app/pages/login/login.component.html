@@ -19,7 +19,8 @@
   </p>
 </div> -->
 
-<h2>Iniciar sesión</h2>
+
+<!-- PRIMER COMMIT <h2>Iniciar sesión</h2>
 <form (ngSubmit)="onLogin()">
   <label>Email:</label>
   <input type="email" [(ngModel)]="email" name="email" required />
@@ -28,5 +29,14 @@
   <input type="password" [(ngModel)]="password" name="password" required />
 
   <button type="submit">Ingresar</button>
+</form> -->
+
+<form (ngSubmit)="onLogin()">
+  <input type="email" [(ngModel)]="email" name="email" placeholder="Correo" required />
+  <input type="password" [(ngModel)]="password" name="password" placeholder="Contraseña" required />
+  <button type="submit">Iniciar sesión</button>
 </form>
 
+<div *ngIf="errorMessage" style="color: red; margin-top: 10px;">
+  {{ errorMessage }}
+</div>
