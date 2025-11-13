@@ -78,6 +78,7 @@
 //   }
 // }
 
+//segundo conmmit
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -97,7 +98,7 @@ export class LoginComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  onLogin() {
+  Login() {
     const body = {
       email: this.email,
       password: this.password
@@ -106,6 +107,7 @@ export class LoginComponent {
     this.http.post('http://localhost:3000/api/login', body).subscribe({
       next: (res: any) => {
         console.log('✅ Login exitoso:', res);
+        localStorage.setItem('token', res.token);
         localStorage.setItem('user', JSON.stringify(res.user));
         this.router.navigate(['/dashboard']); // Ajusta la ruta según tu app
       },
@@ -117,5 +119,38 @@ export class LoginComponent {
   }
 }
 
+// import { Component } from '@angular/core';
+// import { HttpClient } from '@angular/common/http';
+// import { Router } from '@angular/router';
+
+// @Component({
+//   selector: 'app-login',
+//   standalone: true,
+//   templateUrl: './login.component.html'
+// })
+// export class LoginComponent {
+//   email = '';
+//   password = '';
+
+//   constructor(private http: HttpClient, private router: Router) {}
+
+//   login() {
+//     this.http.post<any>('http://localhost:3000/api/login', {
+//       email: this.email,
+//       password: this.password
+//     }).subscribe({
+//       next: res => {
+//         console.log('✅ Login exitoso:', res);
+//         localStorage.setItem('token', res.token);
+//         localStorage.setItem('user', JSON.stringify(res.user));
+//         this.router.navigate(['/dashboard']); // 🔥 Aquí haces la redirección
+//       },
+//       error: err => {
+//         console.error('❌ Error de login:', err);
+//         // puedes mostrar un mensaje al usuario si quieres
+//       }
+//     });
+//   }
+// }
 
 
