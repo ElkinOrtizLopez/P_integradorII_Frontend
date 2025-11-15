@@ -1,0 +1,109 @@
+/* Contenedor general */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* HERO */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 0;
+  flex-wrap: wrap;
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.hero-text h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  background-color: #2d6cdf;
+  border: none;
+  padding: 12px 20px;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.hero-img img {
+  width: 350px;
+  max-width: 100%;
+}
+
+/* BENEFICIOS */
+.benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  margin: 40px 0;
+}
+
+.benefit-card {
+  background: #f4f7ff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* FORMULARIO */
+.form-section {
+  text-align: center;
+  margin: 50px 0;
+}
+
+.form-section form {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-section input {
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+.login-link {
+  margin-top: 10px;
+}
+
+.login-link a {
+  color: #2d6cdf;
+  text-decoration: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero {
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .hero-img {
+    margin-top: 20px;
+  }
+}

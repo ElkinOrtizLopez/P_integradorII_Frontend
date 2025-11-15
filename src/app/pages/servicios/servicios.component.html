@@ -1,0 +1,12 @@
+<h2>Servicios disponibles</h2>
+
+<div *ngFor="let s of servicios" class="card">
+  <h3>{{ s.servicio_nombre }}</h3>
+  <p>{{ s.servicio_descripcion }}</p>
+  <p><strong>Precio:</strong> ${{ s.precio }}</p>
+  <hr>
+  <h4>Especialista: {{ s.especialista_nombre }}</h4>
+  <p><strong>Especialidad:</strong> {{ s.especialidad }}</p>
+  <p>{{ s.biografia }}</p>
+  <img *ngIf="s.foto_url" [src]="s.foto_url" alt="Foto de especialista" width="150">
+</div>

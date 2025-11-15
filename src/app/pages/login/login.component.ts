@@ -1,95 +1,58 @@
+//segundo conmmit
 // import { Component } from '@angular/core';
 // import { CommonModule } from '@angular/common';
 // import { FormsModule } from '@angular/forms';
-// import { AuthService } from '../../services/auth.service';
+// import { HttpClient, HttpClientModule } from '@angular/common/http';
+// import { Router } from '@angular/router';
 
 // @Component({
 //   selector: 'app-login',
 //   standalone: true,
-//   imports: [CommonModule, FormsModule],
-//   templateUrl: './login.component.html',
-//   styleUrls: ['./login.component.css']
-// })
-// export class LoginComponent {
-//   email = '';
-//   password = '';
-//   message = '';
-
-//   constructor(private authService: AuthService) {}
-
-//   async login() {
-//     try {
-//       const user = await this.authService.login(this.email, this.password);
-//       this.message = `Bienvenido ${user?.email}`;
-//     } catch (error: any) {
-//       this.message = error.message;
-//     }
-//   }
-// }
-
-// import { Component } from '@angular/core';
-// import { AuthService } from '../../services/auth.service';
-
-// @Component({
-//   selector: 'app-login',
-//   templateUrl: './login.component.html',
-//   styleUrls: ['./login.component.css'],
-// })
-// export class LoginComponent {
-//   email = '';
-//   password = '';
-//   message = '';
-
-//   constructor(private auth: AuthService) {}
-
-//   async login() {
-//     try {
-//       const user: any = await this.auth.login(this.email, this.password);
-//       this.message = `Bienvenido ${user?.email || 'usuario'}`;
-//     } catch (error: any) {
-//       this.message = `Error: ${error.message}`;
-//     }
-//   }
-// }
-
-//--- copailot
-// import { Component } from '@angular/core';
-// import { FormsModule } from '@angular/forms';
-// import { CommonModule } from '@angular/common';
-// import { AuthService } from '../../services/auth.service';
-
-// @Component({
-//   selector: 'app-login',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule],
+//   imports: [CommonModule, FormsModule, HttpClientModule],
 //   templateUrl: './login.component.html'
 // })
 // export class LoginComponent {
 //   email = '';
 //   password = '';
+//   errorMessage = '';
 
-//   constructor(private authService: AuthService) {}
+//   constructor(private http: HttpClient, private router: Router) {}
 
-//   onLogin() {
-//     this.authService.login(this.email, this.password).subscribe({
-//       next: (res) => console.log('Login exitoso:', res),
-//       error: (err) => console.error('Error en login:', err)
+//   Login() {
+//     const body = {
+//       email: this.email,
+//       password: this.password
+//     };
+
+//     this.http.post('http://localhost:3000/api/login', body).subscribe({
+//       next: (res: any) => {
+//         console.log('✅ Login exitoso:', res);
+//         localStorage.setItem('token', res.token);
+//         localStorage.setItem('user', JSON.stringify(res.user));
+//         this.router.navigate(['/dashboard']); // Ajusta la ruta según tu app
+//       },
+//       error: err => {
+//         console.error('❌ Error en login:', err);
+//         this.errorMessage = err.error?.error || 'Error desconocido';
+//       }
 //     });
 //   }
 // }
 
-//segundo conmmit
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
-  templateUrl: './login.component.html'
+  imports: [CommonModule, FormsModule, HttpClientModule, RouterModule],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   email = '';
@@ -99,6 +62,8 @@ export class LoginComponent {
   constructor(private http: HttpClient, private router: Router) {}
 
   Login() {
+    this.errorMessage = '';
+
     const body = {
       email: this.email,
       password: this.password
@@ -109,7 +74,7 @@ export class LoginComponent {
         console.log('✅ Login exitoso:', res);
         localStorage.setItem('token', res.token);
         localStorage.setItem('user', JSON.stringify(res.user));
-        this.router.navigate(['/dashboard']); // Ajusta la ruta según tu app
+        this.router.navigate(['/dashboard']);
       },
       error: err => {
         console.error('❌ Error en login:', err);
@@ -117,40 +82,6 @@ export class LoginComponent {
       }
     });
   }
+
 }
-
-// import { Component } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
-// import { Router } from '@angular/router';
-
-// @Component({
-//   selector: 'app-login',
-//   standalone: true,
-//   templateUrl: './login.component.html'
-// })
-// export class LoginComponent {
-//   email = '';
-//   password = '';
-
-//   constructor(private http: HttpClient, private router: Router) {}
-
-//   login() {
-//     this.http.post<any>('http://localhost:3000/api/login', {
-//       email: this.email,
-//       password: this.password
-//     }).subscribe({
-//       next: res => {
-//         console.log('✅ Login exitoso:', res);
-//         localStorage.setItem('token', res.token);
-//         localStorage.setItem('user', JSON.stringify(res.user));
-//         this.router.navigate(['/dashboard']); // 🔥 Aquí haces la redirección
-//       },
-//       error: err => {
-//         console.error('❌ Error de login:', err);
-//         // puedes mostrar un mensaje al usuario si quieres
-//       }
-//     });
-//   }
-// }
-
 

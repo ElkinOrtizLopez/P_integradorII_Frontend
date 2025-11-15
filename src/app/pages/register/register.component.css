@@ -1,0 +1,89 @@
+/* Fuente igual que en el login */
+* {
+  font-family: Arial, sans-serif;
+}
+
+/* Contenedor general */
+.register-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  min-height: 100vh;
+  background: #f4f7fc;
+}
+
+/* Tarjeta */
+.register-card {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  padding: 30px 25px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+/* Títulos */
+h2 {
+  font-size: 26px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: gray;
+  margin-bottom: 25px;
+}
+
+/* Inputs */
+.input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+/* Botón */
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background-color: #2d6cdf;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #1f54b5;
+}
+
+/* Texto inferior */
+.bottom-text {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.bottom-text a {
+  color: #2d6cdf;
+  text-decoration: none;
+  font-weight: bold;
+}

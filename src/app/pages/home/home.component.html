@@ -1,0 +1,65 @@
+<div class="container">
+
+  <!-- Hero principal -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Agenda tus citas médicas fácilmente</h1>
+      <p>
+        Con nuestra plataforma podrás reservar citas médicas de manera rápida, 
+        segura y sin complicaciones. Administra tus consultas y recibe recordatorios automáticos.
+      </p>
+      <button class="btn-primary" (click)="scrollToForm()">Registrarme ahora</button>
+    </div>
+
+    <div class="hero-img">
+      <img src="../../../assets/doctor-illustration.jpg" alt="Citas médicas">
+    </div>
+  </section>
+
+  <!-- Beneficios -->
+  <section class="benefits">
+    <div class="benefit-card">
+      <h3>✔ Fácil de usar</h3>
+      <p>Agenda tus citas en cuestión de segundos.</p>
+    </div>
+
+    <div class="benefit-card">
+      <h3>✔ 100% online</h3>
+      <p>Olvídate de filas y llamadas innecesarias.</p>
+    </div>
+
+    <div class="benefit-card">
+      <h3>✔ Recordatorios</h3>
+      <p>Recibe alertas antes de tus consultas.</p>
+    </div>
+
+    <div class="benefit-card">
+      <h3>✔ Historial</h3>
+      <p>Consulta tus citas previas en cualquier momento.</p>
+    </div>
+  </section>
+
+  <!-- Formulario de registro -->
+  <section class="form-section" id="registerForm">
+    <h2>Crea tu cuenta</h2>
+    <p>Únete a nuestra plataforma y agenda tus citas fácilmente.</p>
+
+    <form (ngSubmit)="onRegister()">
+      <input type="text" placeholder="Nombre completo" [(ngModel)]="name" name="name" required>
+      <input type="email" placeholder="Correo electrónico" [(ngModel)]="email" name="email" required>
+      <input type="password" placeholder="Contraseña" [(ngModel)]="password" name="password" required>
+
+      <button class="btn-primary" type="submit" [disabled]="loading">
+        {{ loading ? "Registrando..." : "Crear cuenta" }}
+      </button>
+
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <p class="login-link">
+        ¿Ya tienes cuenta?
+        <a routerLink="/login">Inicia sesión</a>
+      </p>
+    </form>
+  </section>
+
+</div>

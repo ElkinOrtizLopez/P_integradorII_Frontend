@@ -4,6 +4,8 @@
     <li><a href="#">Inicio</a></li>
     <li><a href="#">Citas</a></li>
     <li><a href="#">Pacientes</a></li>
-    <li><a href="#">Salir</a></li>
+    <li *ngIf="isLoggedIn()">
+      <a href="#" (click)="logout()">Salir</a>
+    </li>
   </ul>
 </nav>

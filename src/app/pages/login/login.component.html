@@ -1,37 +1,5 @@
-<!-- <div class="login-container">
-  <h2>Iniciar sesión</h2>
 
-  <form (ngSubmit)="login()">
-    <label>Email:</label>
-    <input type="email" [(ngModel)]="email" name="email" required />
-
-    <label>Contraseña:</label>
-    <input type="password" [(ngModel)]="password" name="password" required />
-
-    <button type="submit">Ingresar</button>
-  </form>
-
-  <p class="message">{{ message }}</p>
-
-  <p>
-    ¿No tienes cuenta?
-    <a routerLink="/register">Regístrate aquí</a>
-  </p>
-</div> -->
-
-
-<!-- PRIMER COMMIT <h2>Iniciar sesión</h2>
-<form (ngSubmit)="onLogin()">
-  <label>Email:</label>
-  <input type="email" [(ngModel)]="email" name="email" required />
-
-  <label>Contraseña:</label>
-  <input type="password" [(ngModel)]="password" name="password" required />
-
-  <button type="submit">Ingresar</button>
-</form> -->
-
-<form (ngSubmit)="Login()">
+<!-- <form (ngSubmit)="Login()">
   <input type="email" [(ngModel)]="email" name="email" placeholder="Correo" required />
   <input type="password" [(ngModel)]="password" name="password" placeholder="Contraseña" required />
   <button type="submit">Iniciar sesión</button>
@@ -39,4 +7,34 @@
 
 <div *ngIf="errorMessage" style="color: red; margin-top: 10px;">
   {{ errorMessage }}
+</div> -->
+
+<div class="login-wrapper">
+  <div class="login-card">
+
+    <h2>Iniciar sesión</h2>
+    <p class="subtitle">Accede a tu cuenta para gestionar tus citas</p>
+
+    <form (ngSubmit)="Login()">
+      <div class="input-group">
+        <label>Correo electrónico</label>
+        <input type="email" [(ngModel)]="email" name="email" placeholder="ejemplo@correo.com" required />
+      </div>
+
+      <div class="input-group">
+        <label>Contraseña</label>
+        <input type="password" [(ngModel)]="password" name="password" placeholder="••••••••" required />
+      </div>
+
+      <button type="submit" class="btn-primary">Iniciar sesión</button>
+    </form>
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <p class="register-text">
+      ¿No tienes cuenta?
+      <a routerLink="/register">Regístrate</a>
+    </p>
+
+  </div>
 </div>

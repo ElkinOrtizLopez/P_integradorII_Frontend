@@ -49,28 +49,67 @@
 // }
 
 //-------------copailot
+// import { Component } from '@angular/core';
+// import { FormsModule } from '@angular/forms';
+// import { CommonModule } from '@angular/common';
+// import { AuthService } from '../../services/auth.service';
+
+// @Component({
+//   selector: 'app-register',
+//   standalone: true,
+//   imports: [CommonModule, FormsModule],
+//   templateUrl: './register.component.html'
+// })
+// export class RegisterComponent {
+//   name = '';
+//   email = '';
+//   password = '';
+
+//   constructor(private authService: AuthService) {}
+
+//   onRegister() {
+//     this.authService.register(this.name, this.email, this.password).subscribe({
+//       next: (res) => console.log('Registro exitoso:', res),
+//       error: (err) => console.error('Error en registro:', err)
+//     });
+//   }
+// }
+// register redirije a login
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './register.component.html'
+  imports: [CommonModule, FormsModule, RouterModule],
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   name = '';
   email = '';
   password = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router     // 👈 Inyectamos Router
+  ) {}
 
   onRegister() {
     this.authService.register(this.name, this.email, this.password).subscribe({
-      next: (res) => console.log('Registro exitoso:', res),
-      error: (err) => console.error('Error en registro:', err)
+      next: (res) => {
+        console.log('Registro exitoso:', res);
+
+        // 👇 Redirigir al login después de registrarse
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Error en registro:', err);
+      }
     });
   }
 }
