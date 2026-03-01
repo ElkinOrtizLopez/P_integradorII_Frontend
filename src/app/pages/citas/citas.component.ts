@@ -17,7 +17,7 @@ export class CitasComponent implements OnInit {
   especialistas: any[] = [];
   selectedEspecialista: any = null;
   semana: { date: Date; label: string; iso: string }[] = [];
-  horariosByDay: Record<string, { hora: string; disponible: boolean }[]> = {};
+  horariosByDay: Record<string, { hora: string; disponible: boolean; pasado: boolean }[]> = {};
   slotDurationMinutes = 30;
   userId: number | null = null;
 
@@ -42,17 +42,25 @@ export class CitasComponent implements OnInit {
   }
 
   generateSemanaActual() {
-    const today = new Date();
-    const day = today.getDay();
-    const monday = new Date(today);
-    monday.setDate(today.getDate() + (day === 0 ? -6 : 1 - day));
+    const DIAS_ES = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+    const cursor = new Date();
+    cursor.setHours(0, 0, 0, 0);
 
+    // Si es sábado (6) avanzar 2 días, si es domingo (0) avanzar 1
+    const dow = cursor.getDay();
+    if (dow === 6) cursor.setDate(cursor.getDate() + 2);
+    else if (dow === 0) cursor.setDate(cursor.getDate() + 1);
+
+    // Recolectar exactamente 5 días hábiles (lunes a viernes) desde hoy
     this.semana = [];
-    for (let i = 0; i < 5; i++) {
-      const d = new Date(monday);
-      d.setDate(monday.getDate() + i);
-      const iso = d.toISOString().slice(0, 10);
-      this.semana.push({ date: d, label: d.toLocaleDateString(), iso });
+    while (this.semana.length < 5) {
+      const dayOfWeek = cursor.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        const iso = cursor.toISOString().slice(0, 10);
+        const label = `${DIAS_ES[dayOfWeek]} ${cursor.getDate()}`;
+        this.semana.push({ date: new Date(cursor), label, iso });
+      }
+      cursor.setDate(cursor.getDate() + 1);
     }
   }
 
@@ -78,13 +86,19 @@ export class CitasComponent implements OnInit {
       citasExistentes.filter((c: any) => c.estado === 'activa').map((c: any) => c.hora.slice(0, 5))
     );
 
-    const slots: { hora: string; disponible: boolean }[] = [];
+    // Detectar si este día es hoy para deshabilitar horas pasadas
+    const ahora = new Date();
+    const esHoy = fechaIso === ahora.toISOString().slice(0, 10);
+    const minutosAhora = ahora.getHours() * 60 + ahora.getMinutes();
+
+    const slots: { hora: string; disponible: boolean; pasado: boolean }[] = [];
     for (const h of horariosDelDia) {
       let start = this.toMinutos(h.hora_inicio);
       const end = this.toMinutos(h.hora_fin);
       while (start + this.slotDurationMinutes <= end) {
         const hhmm = this.toHora(start);
-        slots.push({ hora: hhmm, disponible: !ocupadas.has(hhmm) });
+        const pasado = esHoy && start <= minutosAhora;
+        slots.push({ hora: hhmm, disponible: !ocupadas.has(hhmm), pasado });
         start += this.slotDurationMinutes;
       }
     }
@@ -103,6 +117,13 @@ export class CitasComponent implements OnInit {
   reservar(fecha: string, hora: string) {
     if (!this.userId) {
       this.toast.error('Debes iniciar sesión para reservar');
+      return;
+    }
+
+    // Verificación extra por si el usuario burló el disabled del botón
+    const slot = (this.horariosByDay[fecha] || []).find(s => s.hora === hora);
+    if (slot?.pasado) {
+      this.toast.error('Este horario ya pasó, elige otro');
       return;
     }
 

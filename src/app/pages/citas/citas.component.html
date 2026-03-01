@@ -22,7 +22,6 @@
     </div>
   </div>
 
-
   <!-- Detalle del especialista seleccionado -->
   <div *ngIf="selectedEspecialista" class="detail-section">
     
@@ -32,33 +31,38 @@
       <p class="bio">{{ selectedEspecialista.biografia }}</p>
     </div>
 
-
-    <!-- Calendario Semana Actual -->
+    <!-- Calendario — próximos 5 días hábiles -->
     <div class="calendar-box">
-      <h3>Disponibilidad – Semana Actual</h3>
+      <h3>Disponibilidad – Próximos días</h3>
 
       <div class="week-grid">
         <div class="day" *ngFor="let d of semana">
           
-          <p class="day-header">
-            {{ d.date | date:'EEE d' }}
-          </p>
+          <!-- Etiqueta del día en español: "Lun 3", "Mar 4"... -->
+          <p class="day-header">{{ d.label }}</p>
 
           <div class="slots">
             <button *ngFor="let s of horariosByDay[d.iso] || []"
                     (click)="reservar(d.iso, s.hora)"
-                    [disabled]="!s.disponible"
-                    [class.disabled]="!s.disponible">
+                    [disabled]="!s.disponible || s.pasado"
+                    [class.disabled]="!s.disponible"
+                    [class.pasado]="s.pasado && s.disponible">
               {{ s.hora }}
             </button>
 
-            <p *ngIf="(horariosByDay[d.iso] || []).length === 0"
-               class="no-slots">
+            <p *ngIf="(horariosByDay[d.iso] || []).length === 0" class="no-slots">
               Sin horario
             </p>
           </div>
 
         </div>
+      </div>
+
+      <!-- Leyenda -->
+      <div class="leyenda">
+        <span class="leyenda-item"><span class="dot libre"></span> Disponible</span>
+        <span class="leyenda-item"><span class="dot pasado"></span> Hora pasada</span>
+        <span class="leyenda-item"><span class="dot ocupado"></span> Ocupado</span>
       </div>
     </div>
   </div>

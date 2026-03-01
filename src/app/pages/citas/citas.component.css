@@ -118,12 +118,38 @@
   background: #e5efff;
 }
 
+/* Slot hora ya pasada — gris claro, no es un error */
+.slots button.pasado {
+  background: #f0f0f0;
+  border-color: #ddd;
+  color: #bbb;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* Slot ocupado por otra cita — rojo suave */
 .slots button.disabled {
   background: #ffeceb;
   border-color: #ffb5b5;
   color: #9b3a3a;
   cursor: not-allowed;
 }
+
+/* Leyenda */
+.leyenda {
+  display: flex;
+  gap: 18px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: #666;
+}
+.leyenda-item { display: flex; align-items: center; gap: 5px; }
+.dot {
+  width: 12px; height: 12px; border-radius: 50%; display: inline-block;
+}
+.dot.libre   { background: #eaf0ff; border: 1.5px solid #b3c8f5; }
+.dot.pasado  { background: #f0f0f0; border: 1.5px solid #ddd; }
+.dot.ocupado { background: #ffeceb; border: 1.5px solid #ffb5b5; }
 
 .no-slots {
   color: #777;
