@@ -1,78 +1,73 @@
-//Cuarto commit
-// import { Component, OnInit } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { HttpClient, HttpClientModule } from '@angular/common/http';
-// import { SessionService } from '../../services/session.service';
-
-// @Component({
-//   selector: 'app-dashboard',
-//   standalone: true,
-//   imports: [CommonModule, HttpClientModule],
-//   templateUrl: './dashboard.component.html',
-// })
-// export class DashboardComponent implements OnInit {
-//   userName = '';
-//   userRole = '';
-
-//   constructor(private session: SessionService, private http: HttpClient) {}
-
-//   ngOnInit() {
-//     const token = this.session.getToken();
-
-//     if (!token) {
-//       console.error('⚠️ No hay token en sesión, redirige al login si es necesario.');
-//       return;
-//     }
-
-//     const headers = { Authorization: `Bearer ${token}` };
-
-//     this.http.get<any>('http://localhost:3000/api/profile', { headers }).subscribe({
-//       next: res => {
-//         console.log('✅ Perfil cargado:', res);
-//         this.userName = res.usuario.name;
-//         this.userRole = res.usuario.role;
-//       },
-//       error: err => console.error('❌ Error al obtener perfil:', err)
-//     });
-//   }
-// }
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { CitasService } from '../../services/citas.service';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  userName = '';
+  userRole = '';
+  cargando = true;
 
-  userName: string = '';
-  //nextAppointment: any = null;
-  stats = {
-    upcoming: 0,
-    completed: 0,
-    cancelled: 0
-  };
+  // Estadísticas del paciente (de sus propias citas)
+  statsUsuario = { activas: 0, canceladas: 0, proxima: null as any };
 
-  //upcomingAppointments: any[] = [];
-  featuredDoctors: any[] = [];
+  // Estadísticas globales (solo admin)
+  statsAdmin: any = null;
+
+  // Lista de especialistas desde la BD
+  especialistas: any[] = [];
+
+  constructor(
+    private citasService: CitasService,
+    private session: SessionService
+  ) {}
+
   ngOnInit() {
-    // Obtener datos del usuario
-    const user = localStorage.getItem('user');
+    const user = this.session.getUser();
     if (user) {
-      const parsed = JSON.parse(user);
-      this.userName = parsed.name || 'Usuario';
+      this.userName = user.name || 'Usuario';
+      this.userRole = user.role || 'user';
     }
 
+    // Todos ven los especialistas reales
+    this.citasService.getEspecialistas().subscribe({
+      next: data => {
+        this.especialistas = data.slice(0, 4); // Máximo 4 en el dashboard
+        this.cargando = false;
+      },
+      error: () => { this.cargando = false; }
+    });
 
-    this.featuredDoctors = [
-      { name: 'Dr. Juan Gomez', specialty: 'Medicina General', years: 12 },
-      { name: 'Dra. Laura Gómez', specialty: 'Psicología', years: 8 },
-      { name: 'Dr. Pablo Realpe', specialty: 'Odontología', years: 15 },
-      { name: 'Dra. Natalia Herrera', specialty: 'Oftalmología', years: 15 }
-    ];
+    // Admin: cargar estadísticas globales
+    if (this.userRole === 'admin') {
+      this.citasService.getStats().subscribe({
+        next: data => { this.statsAdmin = data; },
+        error: () => {}
+      });
+    }
+
+    // Paciente: cargar resumen de sus citas
+    if (this.userRole !== 'admin') {
+      this.citasService.getMisCitas().subscribe({
+        next: (citas: any[]) => {
+          this.statsUsuario.activas = citas.filter(c => c.estado === 'activa').length;
+          this.statsUsuario.canceladas = citas.filter(c => c.estado === 'cancelada').length;
+          // Próxima cita: la más cercana con estado activa
+          const futuras = citas
+            .filter(c => c.estado === 'activa' && c.fecha >= new Date().toISOString().split('T')[0])
+            .sort((a, b) => a.fecha.localeCompare(b.fecha));
+          this.statsUsuario.proxima = futuras[0] ?? null;
+        },
+        error: () => {}
+      });
+    }
   }
 }

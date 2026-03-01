@@ -141,6 +141,43 @@
   color: #777;
 }
 
+/* KPI colores */
+.kpi-card { border-left: 4px solid #ccc; }
+.kpi-blue   { border-left-color: #2d6cdf; }
+.kpi-green  { border-left-color: #27ae60; }
+.kpi-purple { border-left-color: #8e44ad; }
+.kpi-orange { border-left-color: #e67e22; }
+.kpi-red    { border-left-color: #e74c3c; }
+.kpi-gray   { border-left-color: #7f8c8d; }
+
+.kpi-label { font-size: 13px; color: #666; margin: 0; }
+.kpi-sub-text { font-size: 12px; color: #888; margin: 2px 0 0; }
+
+/* Avatar especialista */
+.doctor-avatar {
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.doctor-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.avatar-initials { font-size: 28px; font-weight: bold; color: #2d6cdf; }
+
+/* Badge disponible */
+.doc-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; margin-top: 6px;
+}
+.doc-badge.disponible    { background: #d5f5e3; color: #1e8449; }
+.doc-badge.no-disponible { background: #fadbd8; color: #922b21; }
+
+/* Botón agendar */
+.action-link { margin-top: 20px; }
+.btn-agendar {
+  display: inline-block; padding: 10px 22px; background: #2d6cdf; color: white;
+  border-radius: 8px; text-decoration: none; font-weight: 500;
+  transition: background 0.2s;
+}
+.btn-agendar:hover { background: #1e55b0; }
+
+.loading { color: #aaa; padding: 20px 0; }
+
 /* ESTADOS */
 .status {
   padding: 7px 14px;

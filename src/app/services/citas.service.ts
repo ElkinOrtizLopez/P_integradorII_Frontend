@@ -41,4 +41,22 @@ export class CitasService {
   getCitasDelDia(): Observable<any[]> {
     return this.http.get<any[]>(`${this.base}/especialistas/citas`);
   }
+
+  // ── Admin ──────────────────────────────────────────────────────────────────
+
+  getStats(): Observable<any> {
+    return this.http.get<any>(`${this.base}/stats`);
+  }
+
+  crearEspecialista(data: any): Observable<any> {
+    return this.http.post(`${this.base}/especialistas`, data);
+  }
+
+  actualizarEspecialista(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.base}/especialistas/${id}`, data);
+  }
+
+  eliminarEspecialista(id: number): Observable<any> {
+    return this.http.delete(`${this.base}/especialistas/${id}`);
+  }
 }

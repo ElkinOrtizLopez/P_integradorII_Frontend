@@ -4,69 +4,86 @@
   <section class="hero">
     <h1 class="hero-title">Hola, {{ userName }} 👋</h1>
     <p class="hero-sub">
-      Bienvenido a tu centro de gestión médica.  
-      Aquí podrás agendar citas, ver tus próximas atenciones y llevar un seguimiento claro de tu historial.
+      Bienvenido a tu centro de gestión médica.
+      Aquí podrás agendar citas, ver tus próximas atenciones y llevar un seguimiento de tu historial.
     </p>
   </section>
 
-  <!-- Presentación de los profesionales -->
+  <!-- KPIs Admin -->
+  <div class="kpi-grid" *ngIf="userRole === 'admin' && statsAdmin">
+    <div class="kpi-card kpi-blue">
+      <p class="kpi-label">Total usuarios</p>
+      <p class="kpi-value">{{ statsAdmin.total_usuarios }}</p>
+    </div>
+    <div class="kpi-card kpi-green">
+      <p class="kpi-label">Especialistas</p>
+      <p class="kpi-value">{{ statsAdmin.total_especialistas }}</p>
+    </div>
+    <div class="kpi-card kpi-purple">
+      <p class="kpi-label">Citas activas</p>
+      <p class="kpi-value">{{ statsAdmin.citas_activas }}</p>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <p class="kpi-label">Citas hoy</p>
+      <p class="kpi-value">{{ statsAdmin.citas_hoy }}</p>
+    </div>
+    <div class="kpi-card kpi-gray">
+      <p class="kpi-label">Total citas</p>
+      <p class="kpi-value">{{ statsAdmin.total_citas }}</p>
+    </div>
+    <div class="kpi-card kpi-red">
+      <p class="kpi-label">Canceladas</p>
+      <p class="kpi-value">{{ statsAdmin.citas_canceladas }}</p>
+    </div>
+  </div>
+
+  <!-- KPIs Paciente -->
+  <div class="kpi-grid" *ngIf="userRole !== 'admin'">
+    <div class="kpi-card kpi-blue">
+      <p class="kpi-label">Citas activas</p>
+      <p class="kpi-value">{{ statsUsuario.activas }}</p>
+    </div>
+    <div class="kpi-card kpi-red">
+      <p class="kpi-label">Canceladas</p>
+      <p class="kpi-value">{{ statsUsuario.canceladas }}</p>
+    </div>
+    <div class="kpi-card kpi-green" *ngIf="statsUsuario.proxima">
+      <p class="kpi-label">Próxima cita</p>
+      <p class="kpi-value" style="font-size: 18px;">{{ statsUsuario.proxima.fecha }}</p>
+      <p class="kpi-sub-text">{{ statsUsuario.proxima.hora }}</p>
+    </div>
+    <div class="kpi-card kpi-green" *ngIf="!statsUsuario.proxima">
+      <p class="kpi-label">Próxima cita</p>
+      <p class="kpi-value" style="font-size: 16px; color: #aaa;">Sin citas</p>
+    </div>
+  </div>
+
+  <!-- Especialistas reales desde la BD -->
   <section class="doctors-intro">
     <h2 class="section-title">Nuestros especialistas</h2>
     <p class="section-desc">
-      Contamos con un equipo de médicos certificados, con amplia trayectoria y compromiso con tu bienestar.  
-      Cada especialista está cuidadosamente seleccionado para brindarte una atención humana, confiable y profesional.
+      Contamos con un equipo de médicos certificados, con amplia trayectoria y compromiso con tu bienestar.
     </p>
 
-    <div class="doctors-grid">
-      <div class="doctor-card" *ngFor="let d of featuredDoctors">
-        <div class="doctor-avatar"></div>
-        <h3 class="doc-name">{{ d.name }}</h3>
-        <p class="doc-spec">{{ d.specialty }}</p>
-        <p class="doc-exp">✔ Más de {{ d.years }} años de experiencia</p>
+    <div class="doctors-grid" *ngIf="!cargando">
+      <div class="doctor-card" *ngFor="let e of especialistas">
+        <div class="doctor-avatar">
+          <img *ngIf="e.foto_url" [src]="e.foto_url" [alt]="e.nombre" />
+          <span *ngIf="!e.foto_url" class="avatar-initials">{{ e.nombre.charAt(0) }}</span>
+        </div>
+        <h3 class="doc-name">{{ e.nombre }}</h3>
+        <p class="doc-spec">{{ e.especialidad }}</p>
+        <span class="doc-badge" [class.disponible]="e.disponible" [class.no-disponible]="!e.disponible">
+          {{ e.disponible ? 'Disponible' : 'No disponible' }}
+        </span>
       </div>
+    </div>
+
+    <div class="loading" *ngIf="cargando">Cargando especialistas...</div>
+
+    <div class="action-link">
+      <a routerLink="/citas" class="btn-agendar">Agendar una cita →</a>
     </div>
   </section>
-
-  <!-- KPIs -->
-  <!-- <div class="kpi-grid">
-    <div class="kpi-card">
-      <h3>Próxima cita</h3>
-      <p class="kpi-value">{{ nextAppointment?.date }} - {{ nextAppointment?.time }}</p>
-      <p class="kpi-sub">{{ nextAppointment?.doctor }}</p>
-    </div>
-
-    <div class="kpi-card">
-      <h3>Citas activas</h3>
-      <p class="kpi-value">{{ stats.upcoming }}</p>
-    </div>
-
-    <div class="kpi-card">
-      <h3>Citas completadas</h3>
-      <p class="kpi-value">{{ stats.completed }}</p>
-    </div>
-
-    <div class="kpi-card">
-      <h3>Canceladas</h3>
-      <p class="kpi-value">{{ stats.cancelled }}</p>
-    </div>
-  </div> -->
-
-  <!-- Próximas citas -->
-  <!-- <h3 class="section-title">Próximas citas</h3>
-
-  <div class="appointments-list">
-    <div class="appointment" *ngFor="let c of upcomingAppointments">
-      <div>
-        <p class="doctor">{{ c.doctor }}</p>
-        <p class="info">{{ c.date }} - {{ c.time }}</p>
-      </div>
-
-      <span class="status" 
-        [class.confirmed]="c.status==='Confirmada'" 
-        [class.pending]="c.status==='Pendiente'">
-        {{ c.status }}
-      </span>
-    </div>
-  </div> -->
 
 </div>
