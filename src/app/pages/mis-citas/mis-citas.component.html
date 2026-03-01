@@ -1,0 +1,67 @@
+<div class="mis-citas-container">
+
+  <h2>Mis Citas</h2>
+  <p class="subtitle">Administra tus citas</p>
+
+  <!-- <div *ngIf="citas.length === 0" class="empty">
+    Aún no tienes citas programadas.
+  </div> -->
+  <div *ngIf="citas.length === 0" class="empty-state">
+    <div class="empty-card">
+      <div class="icon">📅</div>
+      <h3>No tienes citas programadas</h3>
+      <p>Cuando agendes una cita, aparecerá aquí para que puedas administrarla.</p>
+  
+      <a routerLink="/citas" class="btn-primary">Agendar una cita</a>
+    </div>
+  </div>
+
+
+  <table *ngIf="citas.length > 0">
+    <thead>
+      <tr>
+        <th>Especialista</th>
+        <th>Especialidad</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let c of citas">
+        <td>{{ c.especialista }}</td>
+        <td>{{ c.especialidad }}</td>
+        <td>{{ c.fecha }}</td>
+        <td>{{ c.hora.slice(0,5) }}</td>
+        <td>{{ c.estado }}</td>
+
+        <td>
+          <button class="btn-cancel" (click)="cancelar(c)">Cancelar</button>
+          <button class="btn-edit" (click)="abrirReprogramar(c)">Reprogramar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal de reprogramación -->
+  <div class="modal-backdrop" *ngIf="reprogramarModo">
+    <div class="modal">
+      <h3>Reprogramar Cita</h3>
+
+      <label>Nueva fecha:</label>
+      <input type="date" [(ngModel)]="nuevaFecha" />
+
+      <label>Nueva hora:</label>
+      <input type="time" [(ngModel)]="nuevaHora" />
+
+      <div class="modal-actions">
+        <button class="btn-save" (click)="guardarReprogramar()">Guardar</button>
+        <button class="btn-close" (click)="cerrarModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+

@@ -1,0 +1,134 @@
+.mis-citas-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 20px;
+  font-family: Arial, sans-serif;
+}
+
+.subtitle {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border: 1px solid #ddd;
+}
+
+thead {
+  background: #eef3ff;
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.btn-cancel {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin-right: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-edit {
+  background: #1f6feb;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 320px;
+}
+
+.modal-actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-save {
+  background: #2d6cdf;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 4px;
+  border: none;
+}
+
+.btn-close {
+  background: #aaa;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 4px;
+  border: none;
+}
+/* Estado vacío (cuando no hay citas) */
+.empty-state {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.empty-card {
+  text-align: center;
+  background: #f9fbff;
+  border: 1px solid #e3e8f4;
+  padding: 35px 25px;
+  border-radius: 12px;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+
+.empty-card .icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.empty-card h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.empty-card p {
+  color: #555;
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  display: inline-block;
+  text-decoration: none;
+  background: #1f6feb;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.btn-primary:hover {
+  background: #1557c0;
+}
+

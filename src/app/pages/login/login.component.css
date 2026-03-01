@@ -123,3 +123,52 @@ input {
   text-decoration: none;
   font-weight: bold;
 }
+
+/* Divisor "o" */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0 15px;
+  color: #aaa;
+  font-size: 13px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e0e0e0;
+}
+
+.divider span {
+  padding: 0 10px;
+}
+
+/* Botón de Google */
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px;
+  background: white;
+  color: #333;
+  border: 1.5px solid #dadce0;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.btn-google:hover:not(:disabled) {
+  background: #f5f5f5;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+
+.btn-google:disabled,
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

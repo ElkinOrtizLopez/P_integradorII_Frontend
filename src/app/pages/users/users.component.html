@@ -1,0 +1,47 @@
+<!-- Mostrar solo si el usuario tiene rol admin o doctor -->
+<div *ngIf="['admin', 'doctor'].includes(userRole); else noPermiso" class="container">
+  
+  <h2 class="titulo">Citas del Día</h2>
+
+  <!-- Cargando -->
+  <div *ngIf="cargando" class="loading">Cargando citas...</div>
+
+  <!-- Tabla de citas -->
+  <table *ngIf="!cargando && citas.length > 0" class="tabla">
+    <thead>
+      <tr>
+        <th>Paciente</th>
+        <th>Email</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let c of citas">
+        <td>{{ c.paciente }}</td>
+        <td>{{ c.email }}</td>
+        <td>{{ c.fecha }}</td>
+        <td>{{ c.hora }}</td>
+        <td>
+          <span class="badge activa" *ngIf="c.estado === 'activa'">Activa</span>
+          <span class="badge cancelada" *ngIf="c.estado === 'cancelada'">Cancelada</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Si no hay citas -->
+  <p *ngIf="!cargando && citas.length === 0" class="vacio">
+    No hay citas activas para hoy.
+  </p>
+
+</div>
+
+<!-- Vista si NO tiene permisos -->
+<ng-template #noPermiso>
+  <div class="sin-permiso">
+    ⚠️ No tienes permisos para ver esta sección.
+  </div>
+</ng-template>

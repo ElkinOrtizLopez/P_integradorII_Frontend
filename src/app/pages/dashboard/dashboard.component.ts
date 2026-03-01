@@ -1,49 +1,5 @@
-//Segundo commit
-// import { Component } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-
-// @Component({
-//   selector: 'app-dashboard',
-//   standalone: true,
-//   imports: [CommonModule],
-//   templateUrl: './dashboard.component.html'
-// })
-// export class DashboardComponent {
-//   userName = '';
-
-//   ngOnInit() {
-//     const user = JSON.parse(localStorage.getItem('user') || '{}');
-//     this.userName = user.name || 'Usuario';
-//   }
-// }
-
-
-// segundo commit
-// import { Component } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { SessionService } from '../../services/session.service';
-
-// @Component({
-//   selector: 'app-dashboard',
-//   standalone: true,
-//   imports: [CommonModule],
-//   templateUrl: './dashboard.component.html'
-// })
-// export class DashboardComponent {
-//   userName = '';
-
-//   constructor(private session: SessionService) {}
-
-//   ngOnInit() {
-//     const user = this.session.getUser();
-//     this.userName = user?.name || 'Usuario';
-//     console.log('Usuario actual:', user?.name);
-//   }
-// }
-
-
-//copailot no muestra el dashboard
-// import { Component } from '@angular/core';
+//Cuarto commit
+// import { Component, OnInit } from '@angular/core';
 // import { CommonModule } from '@angular/common';
 // import { HttpClient, HttpClientModule } from '@angular/common/http';
 // import { SessionService } from '../../services/session.service';
@@ -54,19 +10,25 @@
 //   imports: [CommonModule, HttpClientModule],
 //   templateUrl: './dashboard.component.html',
 // })
-// export class DashboardComponent {
+// export class DashboardComponent implements OnInit {
 //   userName = '';
 //   userRole = '';
 
 //   constructor(private session: SessionService, private http: HttpClient) {}
 
 //   ngOnInit() {
-//     const headers = {
-//       Authorization: `Bearer ${this.session.getToken()}`
-//     };
+//     const token = this.session.getToken();
+
+//     if (!token) {
+//       console.error('⚠️ No hay token en sesión, redirige al login si es necesario.');
+//       return;
+//     }
+
+//     const headers = { Authorization: `Bearer ${token}` };
 
 //     this.http.get<any>('http://localhost:3000/api/profile', { headers }).subscribe({
 //       next: res => {
+//         console.log('✅ Perfil cargado:', res);
 //         this.userName = res.usuario.name;
 //         this.userRole = res.usuario.role;
 //       },
@@ -77,38 +39,40 @@
 
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  userName = '';
-  userRole = '';
 
-  constructor(private session: SessionService, private http: HttpClient) {}
+  userName: string = '';
+  //nextAppointment: any = null;
+  stats = {
+    upcoming: 0,
+    completed: 0,
+    cancelled: 0
+  };
 
+  //upcomingAppointments: any[] = [];
+  featuredDoctors: any[] = [];
   ngOnInit() {
-    const token = this.session.getToken();
-
-    if (!token) {
-      console.error('⚠️ No hay token en sesión, redirige al login si es necesario.');
-      return;
+    // Obtener datos del usuario
+    const user = localStorage.getItem('user');
+    if (user) {
+      const parsed = JSON.parse(user);
+      this.userName = parsed.name || 'Usuario';
     }
 
-    const headers = { Authorization: `Bearer ${token}` };
 
-    this.http.get<any>('http://localhost:3000/api/profile', { headers }).subscribe({
-      next: res => {
-        console.log('✅ Perfil cargado:', res);
-        this.userName = res.usuario.name;
-        this.userRole = res.usuario.role;
-      },
-      error: err => console.error('❌ Error al obtener perfil:', err)
-    });
+    this.featuredDoctors = [
+      { name: 'Dr. Juan Gomez', specialty: 'Medicina General', years: 12 },
+      { name: 'Dra. Laura Gómez', specialty: 'Psicología', years: 8 },
+      { name: 'Dr. Pablo Realpe', specialty: 'Odontología', years: 15 },
+      { name: 'Dra. Natalia Herrera', specialty: 'Oftalmología', years: 15 }
+    ];
   }
 }

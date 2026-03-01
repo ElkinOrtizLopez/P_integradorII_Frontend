@@ -1,0 +1,85 @@
+/* Contenedor */
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Título */
+.titulo {
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* Tabla */
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.tabla th {
+  background: #007bff;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+.tabla td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabla tr:hover {
+  background: #f1f7ff;
+}
+
+/* Estados */
+.badge {
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+}
+
+.badge.activa {
+  background-color: #28a745;
+}
+
+.badge.cancelada {
+  background-color: #dc3545;
+}
+
+/* Mensajes */
+.vacio {
+  text-align: center;
+  margin-top: 20px;
+  color: #777;
+  font-size: 16px;
+}
+
+.sin-permiso {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 25px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  background: #ffe5e5;
+  color: #c00;
+  border-radius: 10px;
+  border: 2px solid #ffb3b3;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+  margin: 20px 0;
+}

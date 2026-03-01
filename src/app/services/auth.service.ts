@@ -1,180 +1,62 @@
-// import { Injectable } from '@angular/core';
-// import { signInWithEmailAndPassword, User } from 'firebase/auth';
-// import { HttpClient } from '@angular/common/http';
-// import { environment } from '../../environments/environment';
-// import { firebaseAuth } from '../firebase.config';
-// import { createUserWithEmailAndPassword } from 'firebase/auth';
-
-// @Injectable({ providedIn: 'root' })
-// export class AuthService {
-
-//   constructor(private http: HttpClient) {}
-
-//   async login(email: string, password: string): Promise<User | null> {
-//     // 🔥 1️⃣ Autenticamos con Firebase
-//     const userCredential = await signInWithEmailAndPassword(firebaseAuth, email, password);
-//     const user = userCredential.user;
-
-//     // 🔥 2️⃣ Obtenemos el token
-//     const token = await user.getIdToken();
-
-//     // 🔥 3️⃣ Lo enviamos al backend Next.js
-//     await this.http.post(`${environment.apiUrl}/api/auth/login`, { token }).toPromise();
-
-//     return user;
-//   }
-
-//   async register(email: string, password: string): Promise<void> {
-//     const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
-//     const user = userCredential.user;
-//     const token = await user.getIdToken();
-
-//     // Envía el token al backend para guardar el usuario
-//     await this.http.post(`${environment.apiUrl}/api/auth/register`, { token }).toPromise();
-//   }
-// }
-
-// import { Injectable } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
-// import { initializeApp } from 'firebase/app';
-// import {
-//   getAuth,
-//   signInWithEmailAndPassword,
-//   createUserWithEmailAndPassword,
-//   signOut,
-//   onAuthStateChanged,
-//   User
-// } from 'firebase/auth';
-// import { environment } from '../../environments/environment';
-// import { firstValueFrom } from 'rxjs';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class AuthService {
-//   private firebaseApp = initializeApp(environment.firebase);
-//   private auth = getAuth(this.firebaseApp);
-//   private backendUrl = 'http://localhost:3000/api/auth'; // cambia si usas otro puerto o dominio
-
-//   currentUser: User | null = null;
-
-//   constructor(private http: HttpClient) {
-//     // Mantener sincronizado el usuario actual
-//     onAuthStateChanged(this.auth, (user) => {
-//       this.currentUser = user;
-//     });
-//   }
-
-//   /**
-//    * 🔐 REGISTRO de usuario con Firebase + backend Next.js
-//    */
-//   async register(email: string, password: string, name: string) {
-//     // Crear usuario en Firebase
-//     const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
-//     const user = userCredential.user;
-
-//     // Obtener token de Firebase
-//     const token = await user.getIdToken();
-
-//     // Enviar datos al backend para registrarlo también en PostgreSQL
-//     const body = { token, name };
-//     const response = await firstValueFrom(this.http.post(`${this.backendUrl}/login`, body));
-
-//     return response;
-//   }
-
-//   /**
-//    * 🔑 LOGIN de usuario con Firebase + validación en backend
-//    */
-//   async login(email: string, password: string) {
-//     // Iniciar sesión en Firebase
-//     const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
-//     const user = userCredential.user;
-
-//     // Obtener el token de Firebase
-//     const token = await user.getIdToken();
-
-//     // Enviar el token al backend (Next.js) para validarlo y crear JWT interno
-//     const body = { token };
-//     const response = await firstValueFrom(this.http.post(`${this.backendUrl}/login`, body));
-
-//     return response;
-//   }
-
-//   /**
-//    * 👤 Obtener información del usuario autenticado desde el backend
-//    */
-//   async getUserProfile() {
-//     if (!this.currentUser) throw new Error('Usuario no autenticado');
-//     const token = await this.currentUser.getIdToken();
-
-//     const headers = { Authorization: `Bearer ${token}` };
-//     const response = await firstValueFrom(this.http.get(`${this.backendUrl}/me`, { headers }));
-
-//     return response;
-//   }
-
-//   /**
-//    * 🚪 Cerrar sesión en Firebase
-//    */
-//   async logout() {
-//     await signOut(this.auth);
-//     this.currentUser = null;
-//   }
-// }
-
-
-//------- copailot segundo commit
-// import { Injectable } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
-// import { Observable } from 'rxjs';
-
-// @Injectable({ providedIn: 'root' })
-// export class AuthService {
-//   constructor(private http: HttpClient) {}
-
-//   login(email: string, password: string): Observable<any> {
-//     return this.http.post('http://localhost:3000/api/login', { email, password });
-//   }
-
-//   register(name: string, email: string, password: string): Observable<any> {
-//     return this.http.post('http://localhost:3000/api/register', { name, email, password });
-//   }
-// }
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from, throwError } from 'rxjs';
+import { switchMap, catchError } from 'rxjs/operators';
+import { initializeApp, getApps } from 'firebase/app';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { environment } from '../../environments/environment';
+
+// Inicializar Firebase solo una vez
+if (!getApps().length) {
+  initializeApp(environment.firebase);
+}
+
+// Mapeo de códigos de error de Firebase a mensajes en español
+const FIREBASE_ERRORS: Record<string, string> = {
+  'auth/operation-not-allowed': 'El login con Google no está habilitado en Firebase. Actívalo en Authentication → Sign-in method.',
+  'auth/popup-blocked': 'El navegador bloqueó la ventana emergente. Permite popups para este sitio e intenta de nuevo.',
+  'auth/popup-closed-by-user': 'Cancelaste el inicio de sesión con Google.',
+  'auth/cancelled-popup-request': 'Se canceló la solicitud de login.',
+  'auth/network-request-failed': 'Error de red. Verifica tu conexión a internet.',
+  'auth/unauthorized-domain': 'Este dominio no está autorizado en Firebase. Agrégalo en Authentication → Settings → Authorized domains.',
+  'auth/user-disabled': 'Esta cuenta ha sido deshabilitada.',
+};
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Inicia sesión del usuario
-   * @param email Correo electrónico
-   * @param password Contraseña
-   * @returns Observable con token y datos del usuario
-   */
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { email, password });
+    return this.http.post(`${this.apiUrl}/api/login`, { email, password });
+  }
+
+  register(name: string, email: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/api/register`, { name, email, password });
   }
 
   /**
-   * Registra un nuevo usuario
-   * @param name Nombre del usuario
-   * @param email Correo electrónico
-   * @param password Contraseña
-   * @returns Observable con token y datos del usuario
+   * Login con Google usando Firebase Auth.
+   * 1. Abre el popup de Google.
+   * 2. Obtiene el ID token de Firebase.
+   * 3. Lo envía al backend /api/auth/login que verifica y devuelve nuestro JWT.
    */
-  register(name: string, email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, { name, email, password });
+  loginConGoogle(): Observable<any> {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+    return from(signInWithPopup(auth, provider)).pipe(
+      catchError(firebaseErr => {
+        const codigo = firebaseErr.code as string;
+        const mensaje = FIREBASE_ERRORS[codigo] ?? `Error de Firebase: ${codigo}`;
+        console.error('[Google Login] Firebase error:', codigo, firebaseErr.message);
+        return throwError(() => ({ error: { error: mensaje } }));
+      }),
+      switchMap(result => from((result as any).user.getIdToken())),
+      switchMap(firebaseToken =>
+        this.http.post(`${this.apiUrl}/api/auth/login`, { token: firebaseToken })
+      )
+    );
   }
 }
-
-
-
-
-

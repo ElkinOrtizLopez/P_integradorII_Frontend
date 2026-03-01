@@ -1,3 +1,72 @@
-<h2>Bienvenido, {{ userName }} 👋</h2>
-<p>Tu rol es: <strong>{{ userRole }}</strong></p>
+<div class="dashboard-container">
 
+  <!-- Bienvenida -->
+  <section class="hero">
+    <h1 class="hero-title">Hola, {{ userName }} 👋</h1>
+    <p class="hero-sub">
+      Bienvenido a tu centro de gestión médica.  
+      Aquí podrás agendar citas, ver tus próximas atenciones y llevar un seguimiento claro de tu historial.
+    </p>
+  </section>
+
+  <!-- Presentación de los profesionales -->
+  <section class="doctors-intro">
+    <h2 class="section-title">Nuestros especialistas</h2>
+    <p class="section-desc">
+      Contamos con un equipo de médicos certificados, con amplia trayectoria y compromiso con tu bienestar.  
+      Cada especialista está cuidadosamente seleccionado para brindarte una atención humana, confiable y profesional.
+    </p>
+
+    <div class="doctors-grid">
+      <div class="doctor-card" *ngFor="let d of featuredDoctors">
+        <div class="doctor-avatar"></div>
+        <h3 class="doc-name">{{ d.name }}</h3>
+        <p class="doc-spec">{{ d.specialty }}</p>
+        <p class="doc-exp">✔ Más de {{ d.years }} años de experiencia</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPIs -->
+  <!-- <div class="kpi-grid">
+    <div class="kpi-card">
+      <h3>Próxima cita</h3>
+      <p class="kpi-value">{{ nextAppointment?.date }} - {{ nextAppointment?.time }}</p>
+      <p class="kpi-sub">{{ nextAppointment?.doctor }}</p>
+    </div>
+
+    <div class="kpi-card">
+      <h3>Citas activas</h3>
+      <p class="kpi-value">{{ stats.upcoming }}</p>
+    </div>
+
+    <div class="kpi-card">
+      <h3>Citas completadas</h3>
+      <p class="kpi-value">{{ stats.completed }}</p>
+    </div>
+
+    <div class="kpi-card">
+      <h3>Canceladas</h3>
+      <p class="kpi-value">{{ stats.cancelled }}</p>
+    </div>
+  </div> -->
+
+  <!-- Próximas citas -->
+  <!-- <h3 class="section-title">Próximas citas</h3>
+
+  <div class="appointments-list">
+    <div class="appointment" *ngFor="let c of upcomingAppointments">
+      <div>
+        <p class="doctor">{{ c.doctor }}</p>
+        <p class="info">{{ c.date }} - {{ c.time }}</p>
+      </div>
+
+      <span class="status" 
+        [class.confirmed]="c.status==='Confirmada'" 
+        [class.pending]="c.status==='Pendiente'">
+        {{ c.status }}
+      </span>
+    </div>
+  </div> -->
+
+</div>

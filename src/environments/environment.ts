@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000 ', // tu backend Next.js
+  apiUrl: 'http://localhost:3000',
   firebase: {
     apiKey: "AIzaSyB80Fcewf6yBCgDgQLmU4eKypExD_1QI3Y",
     authDomain: "appcitas-a0f81.firebaseapp.com",

@@ -1,0 +1,66 @@
+<div class="citas-page">
+  
+  <h2 class="title">Especialidades disponibles</h2>
+
+  <!-- Tarjetas de especialidades -->
+  <div class="cards-grid">
+    <div class="spec-card"
+         *ngFor="let e of especialistas"
+         (click)="selectEspecialista(e)"
+         [class.selected]="selectedEspecialista?.id === e.id">
+
+      <img *ngIf="e.foto_url" [src]="e.foto_url" class="photo"/>
+
+      <h3>{{ e.especialidad }}</h3>
+      <p class="doctor">{{ e.nombre }}</p>
+
+      <div *ngIf="e.servicios?.length" class="service-box">
+        <p class="service-name">{{ e.servicios[0]?.nombre }}</p>
+        <p class="service-price">{{ e.servicios[0]?.precio | currency:'COP' }}</p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Detalle del especialista seleccionado -->
+  <div *ngIf="selectedEspecialista" class="detail-section">
+    
+    <div class="info-box">
+      <h3>{{ selectedEspecialista.nombre }}</h3>
+      <p class="specialty">{{ selectedEspecialista.especialidad }}</p>
+      <p class="bio">{{ selectedEspecialista.biografia }}</p>
+    </div>
+
+
+    <!-- Calendario Semana Actual -->
+    <div class="calendar-box">
+      <h3>Disponibilidad – Semana Actual</h3>
+
+      <div class="week-grid">
+        <div class="day" *ngFor="let d of semana">
+          
+          <p class="day-header">
+            {{ d.date | date:'EEE d' }}
+          </p>
+
+          <div class="slots">
+            <button *ngFor="let s of horariosByDay[d.iso] || []"
+                    (click)="reservar(d.iso, s.hora)"
+                    [disabled]="!s.disponible"
+                    [class.disabled]="!s.disponible">
+              {{ s.hora }}
+            </button>
+
+            <p *ngIf="(horariosByDay[d.iso] || []).length === 0"
+               class="no-slots">
+              Sin horario
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
