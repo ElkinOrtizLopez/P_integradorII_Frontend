@@ -1,1 +1,70 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* ─── CSS Custom Properties ──────────────────────────────────────────────── */
+:root {
+  --bg-page:        #f4f7fc;
+  --bg-card:        #ffffff;
+  --bg-card-alt:    #f8faff;
+  --bg-input:       #ffffff;
+  --bg-thead:       #eef3ff;
+  --bg-hover:       #fafbff;
+  --text-primary:   #1e293b;
+  --text-secondary: #555555;
+  --text-muted:     #888888;
+  --border:         #e4e8f0;
+  --border-light:   #f0f0f0;
+}
+
+:root.dark {
+  --bg-page:        #0f172a;
+  --bg-card:        #1e293b;
+  --bg-card-alt:    #1a2740;
+  --bg-input:       #263147;
+  --bg-thead:       #1e2d45;
+  --bg-hover:       #243050;
+  --text-primary:   #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted:     #64748b;
+  --border:         #334155;
+  --border-light:   #2d3f56;
+}
+
+/* ─── Global ─────────────────────────────────────────────────────────────── */
+body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  transition: background-color 0.25s, color 0.25s;
+}
+
+/* Inputs, textareas y selects en modo oscuro */
+:root.dark input,
+:root.dark textarea,
+:root.dark select {
+  background-color: var(--bg-input) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+
+:root.dark input::placeholder,
+:root.dark textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* Fix autofill del navegador en modo oscuro (Chrome/Edge) */
+:root.dark input:-webkit-autofill,
+:root.dark input:-webkit-autofill:hover,
+:root.dark input:-webkit-autofill:focus,
+:root.dark textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #263147 inset !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
+  caret-color: #e2e8f0;
+}
+
+/* Fix autofill en modo claro */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #1e293b !important;
+  transition: background-color 5000s ease-in-out 0s;
+}

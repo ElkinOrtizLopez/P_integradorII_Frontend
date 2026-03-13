@@ -6,6 +6,12 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 3px solid #283593;
+  transition: background-color 0.25s;
+}
+
+:root.dark .navbar {
+  background-color: #1e293b;
+  border-bottom-color: #0f172a;
 }
 
 .navbar h1 {
@@ -17,6 +23,9 @@
   list-style: none;
   display: flex;
   gap: 1rem;
+  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 .menu a {
@@ -27,4 +36,21 @@
 
 .menu a:hover {
   opacity: 0.8;
+}
+
+/* Botón modo oscuro/claro */
+.btn-theme {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 17px;
+  line-height: 1;
+  transition: background 0.2s;
+}
+
+.btn-theme:hover {
+  background: rgba(255, 255, 255, 0.28);
 }

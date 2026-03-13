@@ -7,9 +7,9 @@
 
 .title {
   margin-bottom: 15px;
+  color: var(--text-primary);
 }
 
-/* Grid de especialidades */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -18,8 +18,8 @@
 }
 
 .spec-card {
-  background: #fff;
-  border: 1px solid #dfe7f3;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 18px;
   cursor: pointer;
@@ -48,10 +48,9 @@
 .doctor {
   font-size: 15px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-primary);
 }
 
-/* Detalle */
 .detail-section {
   display: flex;
   gap: 25px;
@@ -60,10 +59,11 @@
 
 .info-box {
   flex: 1 1 300px;
-  background: #fff;
-  border: 1px solid #dde7f7;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   padding: 20px;
   border-radius: 10px;
+  color: var(--text-primary);
 }
 
 .specialty {
@@ -73,13 +73,13 @@
 
 .bio {
   margin-top: 10px;
+  color: var(--text-secondary);
 }
 
-/* Calendario */
 .calendar-box {
   flex: 1 1 500px;
-  background: #fff;
-  border: 1px solid #dde7f7;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   padding: 20px;
   border-radius: 10px;
 }
@@ -92,7 +92,7 @@
 }
 
 .day {
-  border: 1px solid #e1e9f8;
+  border: 1px solid var(--border);
   padding: 10px;
   border-radius: 8px;
   min-height: 150px;
@@ -102,6 +102,7 @@
   font-weight: bold;
   text-align: center;
   margin-bottom: 10px;
+  color: var(--text-primary);
 }
 
 .slots button {
@@ -110,24 +111,25 @@
   margin-bottom: 6px;
   border: 1px solid #cfe1ff;
   border-radius: 6px;
-  background: #f3f7ff;
+  background: var(--bg-card-alt);
   cursor: pointer;
+  color: var(--text-primary);
+  transition: background 0.2s;
 }
 
 .slots button:hover {
-  background: #e5efff;
+  background: var(--bg-hover);
 }
 
-/* Slot hora ya pasada — gris claro, no es un error */
 .slots button.pasado {
-  background: #f0f0f0;
-  border-color: #ddd;
-  color: #bbb;
+  background: var(--bg-card-alt);
+  border-color: var(--border-light);
+  color: var(--text-muted);
   cursor: not-allowed;
   text-decoration: line-through;
+  opacity: 0.6;
 }
 
-/* Slot ocupado por otra cita — rojo suave */
 .slots button.disabled {
   background: #ffeceb;
   border-color: #ffb5b5;
@@ -135,24 +137,23 @@
   cursor: not-allowed;
 }
 
-/* Leyenda */
 .leyenda {
   display: flex;
   gap: 18px;
   margin-top: 16px;
   font-size: 12px;
-  color: #666;
+  color: var(--text-secondary);
 }
 .leyenda-item { display: flex; align-items: center; gap: 5px; }
 .dot {
   width: 12px; height: 12px; border-radius: 50%; display: inline-block;
 }
 .dot.libre   { background: #eaf0ff; border: 1.5px solid #b3c8f5; }
-.dot.pasado  { background: #f0f0f0; border: 1.5px solid #ddd; }
+.dot.pasado  { background: var(--bg-card-alt); border: 1.5px solid var(--border); }
 .dot.ocupado { background: #ffeceb; border: 1.5px solid #ffb5b5; }
 
 .no-slots {
-  color: #777;
+  color: var(--text-muted);
   text-align: center;
   margin-top: 10px;
 }

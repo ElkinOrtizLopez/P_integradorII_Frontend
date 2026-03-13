@@ -42,6 +42,20 @@ export class AuthService {
    * 2. Obtiene el ID token de Firebase.
    * 3. Lo envía al backend /api/auth/login que verifica y devuelve nuestro JWT.
    */
+  getPerfil(): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.apiUrl}/api/perfil`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  }
+
+  actualizarPerfil(name: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.put(`${this.apiUrl}/api/perfil`, { name }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  }
+
   loginConGoogle(): Observable<any> {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();

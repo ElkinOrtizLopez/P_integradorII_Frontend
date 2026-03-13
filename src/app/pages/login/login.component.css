@@ -1,73 +1,36 @@
-/* .login-container {
-  max-width: 350px;
-  margin: 40px auto;
-  padding: 25px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background: #f9f9f9;
-}
-
-label {
-  display: block;
-  margin-top: 12px;
-}
-
-input {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-}
-
-button {
-  margin-top: 15px;
-  padding: 10px;
-  width: 100%;
-  background-color: #1976d2;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
-
-.message {
-  margin-top: 10px;
-  color: green;
-  text-align: center;
-} */
-
-/* Fondo general */
 .login-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px;
   min-height: 100vh;
-  background: #f4f7fc;
+  background: var(--bg-page);
+  transition: background 0.25s;
 }
 
-/* Tarjeta del login */
 .login-card {
   width: 100%;
   max-width: 380px;
-  background: white;
+  background: var(--bg-card);
   padding: 30px 25px;
   border-radius: 12px;
   box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
   text-align: center;
+  transition: background 0.25s, box-shadow 0.25s;
 }
 
-/* Títulos */
 h2 {
   font-size: 26px;
   margin-bottom: 5px;
+  color: var(--text-primary);
 }
 
 .subtitle {
   font-size: 14px;
-  color: gray;
+  color: var(--text-muted);
   margin-bottom: 25px;
 }
 
-/* Inputs */
 .input-group {
   text-align: left;
   margin-bottom: 15px;
@@ -77,19 +40,36 @@ h2 {
   display: block;
   font-size: 14px;
   margin-bottom: 5px;
-  color: #333;
+  color: var(--text-primary);
 }
 
 input {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   border-radius: 6px;
   font-size: 15px;
   box-sizing: border-box;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  transition: border-color 0.2s;
 }
 
-/* Botón */
+input:focus {
+  outline: none;
+  border-color: #2d6cdf;
+}
+
+/* Fix autofill del navegador — evita el fondo negro/azul del browser */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px var(--bg-input) inset !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: var(--text-primary);
+}
+
 .btn-primary {
   width: 100%;
   padding: 12px;
@@ -107,15 +87,15 @@ input {
   background-color: #1f54b5;
 }
 
-/* Mensajes */
 .error {
   margin-top: 10px;
-  color: red;
+  color: #e74c3c;
 }
 
 .register-text {
   margin-top: 20px;
   font-size: 16px;
+  color: var(--text-primary);
 }
 
 .register-text a {
@@ -124,12 +104,11 @@ input {
   font-weight: bold;
 }
 
-/* Divisor "o" */
 .divider {
   display: flex;
   align-items: center;
   margin: 20px 0 15px;
-  color: #aaa;
+  color: var(--text-muted);
   font-size: 13px;
 }
 
@@ -138,14 +117,13 @@ input {
   content: '';
   flex: 1;
   height: 1px;
-  background: #e0e0e0;
+  background: var(--border);
 }
 
 .divider span {
   padding: 0 10px;
 }
 
-/* Botón de Google */
 .btn-google {
   display: flex;
   align-items: center;
@@ -153,9 +131,9 @@ input {
   gap: 10px;
   width: 100%;
   padding: 11px;
-  background: white;
-  color: #333;
-  border: 1.5px solid #dadce0;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1.5px solid var(--border);
   border-radius: 6px;
   font-size: 15px;
   cursor: pointer;
@@ -163,7 +141,7 @@ input {
 }
 
 .btn-google:hover:not(:disabled) {
-  background: #f5f5f5;
+  background: var(--bg-hover);
   box-shadow: 0 1px 4px rgba(0,0,0,0.15);
 }
 
@@ -171,4 +149,71 @@ input {
 .btn-primary:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* ── Modo oscuro explícito ───────────────────────────────────── */
+:root.dark .login-wrapper {
+  background: #0f172a;
+}
+
+:root.dark .login-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+:root.dark h2 {
+  color: #e2e8f0;
+}
+
+:root.dark .subtitle {
+  color: #64748b;
+}
+
+:root.dark .input-group label {
+  color: #cbd5e1;
+}
+
+:root.dark input {
+  background: #263147;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+:root.dark input:focus {
+  border-color: #3b82f6;
+}
+
+:root.dark input:-webkit-autofill,
+:root.dark input:-webkit-autofill:hover,
+:root.dark input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #263147 inset !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
+}
+
+:root.dark .divider {
+  color: #475569;
+}
+
+:root.dark .divider::before,
+:root.dark .divider::after {
+  background: #334155;
+}
+
+:root.dark .btn-google {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+:root.dark .btn-google:hover:not(:disabled) {
+  background: #243050;
+}
+
+:root.dark .register-text {
+  color: #94a3b8;
+}
+
+:root.dark .register-text a {
+  color: #60a5fa;
 }

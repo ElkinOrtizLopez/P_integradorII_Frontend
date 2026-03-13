@@ -7,23 +7,31 @@
 
 .subtitle {
   margin-bottom: 20px;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
-  border: 1px solid #ddd;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
 }
 
 thead {
-  background: #eef3ff;
+  background: var(--bg-thead);
 }
 
-th, td {
+th {
   padding: 12px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+  text-align: left;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-primary);
 }
 
 .btn-cancel {
@@ -55,10 +63,12 @@ th, td {
 }
 
 .modal {
-  background: white;
+  background: var(--bg-card);
   padding: 20px;
   border-radius: 8px;
   width: 320px;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
 }
 
 .modal-actions {
@@ -76,13 +86,13 @@ th, td {
 }
 
 .btn-close {
-  background: #aaa;
-  color: white;
+  background: var(--bg-card-alt);
+  color: var(--text-primary);
   padding: 8px 14px;
   border-radius: 4px;
-  border: none;
+  border: 1px solid var(--border);
 }
-/* Estado vacío (cuando no hay citas) */
+
 .empty-state {
   display: flex;
   justify-content: center;
@@ -91,8 +101,8 @@ th, td {
 
 .empty-card {
   text-align: center;
-  background: #f9fbff;
-  border: 1px solid #e3e8f4;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
   padding: 35px 25px;
   border-radius: 12px;
   max-width: 380px;
@@ -108,11 +118,11 @@ th, td {
 .empty-card h3 {
   font-size: 20px;
   margin-bottom: 8px;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .empty-card p {
-  color: #555;
+  color: var(--text-secondary);
   font-size: 15px;
   margin-bottom: 20px;
 }
@@ -131,4 +141,3 @@ th, td {
 .btn-primary:hover {
   background: #1557c0;
 }
-

@@ -1,0 +1,72 @@
+<div class="perfil-container">
+
+  <!-- Encabezado -->
+  <div class="perfil-header">
+    <div class="avatar">
+      {{ name ? name.charAt(0).toUpperCase() : '?' }}
+    </div>
+    <div class="header-info">
+      <h2>Mi perfil</h2>
+      <span class="badge-rol">{{ rolLabel() }}</span>
+    </div>
+  </div>
+
+  <!-- Skeleton mientras carga -->
+  <div *ngIf="cargando" class="skeleton-wrapper">
+    <div class="skeleton-line wide"></div>
+    <div class="skeleton-line"></div>
+    <div class="skeleton-line"></div>
+  </div>
+
+  <!-- Formulario -->
+  <form *ngIf="!cargando" (ngSubmit)="guardar()" class="perfil-form">
+
+    <!-- Correo electrónico (solo lectura) -->
+    <div class="field-group">
+      <label>Correo electrónico</label>
+      <div class="input-wrapper readonly">
+        <span class="icon">✉</span>
+        <input type="email" [value]="email" disabled />
+        <span class="badge-readonly">No editable</span>
+      </div>
+      <small>El correo de registro no se puede cambiar.</small>
+    </div>
+
+    <!-- Nombre completo (editable) -->
+    <div class="field-group">
+      <label for="nombre">Nombre completo</label>
+      <div class="input-wrapper">
+        <span class="icon">👤</span>
+        <input
+          id="nombre"
+          type="text"
+          [(ngModel)]="name"
+          name="name"
+          placeholder="Tu nombre completo"
+          maxlength="100"
+          required
+        />
+      </div>
+    </div>
+
+    <!-- Información extra (solo lectura) -->
+    <div class="info-extra">
+      <div class="info-item">
+        <span class="label">Miembro desde</span>
+        <span class="value">{{ fechaFormateada() }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Tipo de cuenta</span>
+        <span class="value">{{ rolLabel() }}</span>
+      </div>
+    </div>
+
+    <!-- Botón guardar -->
+    <button type="submit" class="btn-guardar" [disabled]="guardando">
+      <span *ngIf="!guardando">Guardar cambios</span>
+      <span *ngIf="guardando">Guardando...</span>
+    </button>
+
+  </form>
+
+</div>

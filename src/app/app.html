@@ -4,5 +4,14 @@
   <router-outlet></router-outlet>
 </main>
 
-<!-- Toast global: aparece en toda la app -->
+<!-- Toast global -->
 <app-toast></app-toast>
+
+<!-- Botón flotante modo oscuro/claro -->
+<button
+  class="btn-theme-float"
+  (click)="theme.toggle()"
+  [title]="theme.isDark() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+>
+  @if (theme.isDark()) { &#9728; } @else { &#9790; }
+</button>

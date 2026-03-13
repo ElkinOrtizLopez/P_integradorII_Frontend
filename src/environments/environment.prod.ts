@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  // En el Dia 6 reemplaza esta URL por la de tu backend en Render
-  apiUrl: 'https://tu-backend.onrender.com',
+  // Reemplaza con tu URL real de Render cuando la tengas
+  apiUrl: 'https://TU-BACKEND.onrender.com',
   firebase: {
     apiKey: "AIzaSyB80Fcewf6yBCgDgQLmU4eKypExD_1QI3Y",
     authDomain: "appcitas-a0f81.firebaseapp.com",

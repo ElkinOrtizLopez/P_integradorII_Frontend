@@ -9,6 +9,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { CitasComponent } from './pages/citas/citas.component';
 import { MisCitasComponent } from './pages/mis-citas/mis-citas.component';
 import { UsersComponent } from './pages/users/users.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'citas',     component: CitasComponent,     canActivate: [AuthGuard] },
   { path: 'mis-citas', component: MisCitasComponent,  canActivate: [AuthGuard] },
   { path: 'servicios', component: ServiciosComponent,  canActivate: [AuthGuard] },
+  { path: 'perfil',    component: PerfilComponent,     canActivate: [AuthGuard] },
 
   // Solo admin
   {

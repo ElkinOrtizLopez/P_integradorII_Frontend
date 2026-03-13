@@ -1,3 +1,48 @@
 body, * {
   font-family: Arial, sans-serif;
 }
+
+/* ── Botón flotante modo oscuro / claro ─────────────────────── */
+.btn-theme-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+
+  background: #2d6cdf;
+  color: white;
+  font-size: 22px;
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.btn-theme-float:hover {
+  background: #1a4fa8;
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-theme-float:active {
+  transform: scale(0.95);
+}
+
+:root.dark .btn-theme-float {
+  background: #334155;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+:root.dark .btn-theme-float:hover {
+  background: #475569;
+}
