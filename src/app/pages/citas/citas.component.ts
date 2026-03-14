@@ -31,8 +31,7 @@ export class CitasComponent implements OnInit {
 
   loadEspecialistas() {
     this.srv.getEspecialistas().subscribe(res => {
-      const wanted = ['Medicina General', 'Oftalmología', 'Psicología', 'Odontología'];
-      this.especialistas = res.filter((e: any) => wanted.includes(e.especialidad));
+      this.especialistas = res;
     });
   }
 
